@@ -1,1 +1,0 @@
-Ex 7, 8, 9, 10 are also included in main.c of ex 6
