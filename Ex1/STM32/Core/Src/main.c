@@ -32,6 +32,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define setCounter 2
+#define threshold 0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -54,10 +56,6 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int setCounter (void){
-	return 2;
-}
-
 void enableRED_LED (void){
 	 HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
 	 HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
@@ -107,8 +105,7 @@ int main(void)
   enum ledState status = state1;
   // state1 -> RED:on, Yellow: off
   // state0 -> RED:off, Yellow: on
-  static int counter = 2;
-  const int threshold = 0;
+  static int counter = setCounter;
   while (1)
   {
 	 switch (status){
@@ -116,7 +113,7 @@ int main(void)
 			 {
 				 counter--;
 				 if (counter == threshold){
-					 counter = setCounter();
+					 counter = setCounter;
 					 status = state0;
 				 }
 				 enableRED_LED();
@@ -127,7 +124,7 @@ int main(void)
 			 {
 				 counter--;
 				 if (counter == threshold){
-					 counter = setCounter();
+					 counter = setCounter;
 					 status = state1;
 				 }
 				 enableYellow_LED();

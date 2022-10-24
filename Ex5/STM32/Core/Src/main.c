@@ -32,6 +32,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define setCounterRed 5
+#define setCounterGreen 3
+#define setCounterYellow 2
+#define threshold 0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -215,25 +219,13 @@ void enableGreen2 (void){
 	HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_RESET);
 }
 
-static int setCounterRed (void){
-	return 5;
-}
-
-static int setCounterYellow (void){
-	return 2;
-}
-
-static int setCounterGreen (void){
-	return 3;
-}
-
 int enableTerm_Green2 (int value){
-	if (value >=3) return 1;
+	if (value >= setCounterGreen) return 1;
 	return 0;
 }
 
 int enableTerm_Yellow2 (int value){
-	if (value <= 2) return 1;
+	if (value <= setCounterYellow) return 1;
 	return 0;
 }
 /* USER CODE END 0 */
@@ -285,11 +277,10 @@ int main(void)
   // status = 1 -> Red2:on, Yellow2: off, Green2: off
   // status = 2 -> Red2:on, Yellow2: off, Green2: off
 
-  static int counterRED = 5;
-  static int counterYellow = 2;
-  static int counterGreen = 3;
+  static int counterRED = setCounterRed;
+  static int counterYellow = setCounterYellow;
+  static int counterGreen = setCounterGreen;
 
-  const int threshold = 0;
   while (1)
   {
 	  switch (status){
@@ -298,16 +289,14 @@ int main(void)
 					//West-East Direction
 					enableRed1();
 					// Countdown number for W-E when red led on is the same as counterRED
-					int temp1 = counterRED;
-					display7SEG1(temp1);
+					display7SEG1(counterRED);
 
 					if (enableTerm_Green2(counterRED)==1){
 						//North-South Direction
 						enableGreen2();
 
 						// Countdown number for N-S when green led on must start at 3
-						int temp2 = counterRED - setCounterYellow();
-						display7SEG2(temp2);
+						display7SEG2(counterRED - setCounterYellow);
 					}
 
 					if (enableTerm_Yellow2(counterRED)==1){
@@ -315,12 +304,12 @@ int main(void)
 						enableYellow2();
 
 						// When red led on W-E count to 2, it's also a countdown number for yellow led of N-S
-						display7SEG2(temp1);
+						display7SEG2(counterRED);
 					}
 
 					counterRED--;
 					if (counterRED == threshold){
-						counterRED = setCounterRed();
+						counterRED = setCounterRed;
 						status = state1;
 					}
 				}
@@ -332,19 +321,17 @@ int main(void)
 					enableGreen1();
 
 					//Countdown number in W-E when green led on is same as counterGreen
-					int temp1 = counterGreen;
-					display7SEG1(temp1);
+					display7SEG1(counterGreen);
 
 					//North-South Direction
 					enableRed2();
 
 					// Meanwhile, countdown in N-S when red led on must start at 5
-					int temp2 = counterGreen + setCounterYellow();
-					display7SEG2(temp2);
+					display7SEG2(counterGreen + setCounterYellow);
 
 					counterGreen--;
 					if (counterGreen == threshold){
-						counterGreen = setCounterGreen();
+						counterGreen = setCounterGreen;
 						status = state2;
 					}
 				}
@@ -356,18 +343,17 @@ int main(void)
 					enableYellow1();
 
 					//Countdown number for W-E when yellow led on is same as counterYellow
-					int temp = counterYellow;
-					display7SEG1(temp);
+					display7SEG1(counterYellow);
 
 					//North-South Direction
 					enableRed2();
 
 					// The 2 seconds duration of yellow led in W-E is also the last 2 of red led on N-S
-					display7SEG2(temp);
+					display7SEG2(counterYellow);
 
 					counterYellow--;
 					if (counterYellow == threshold){
-						counterYellow = setCounterYellow();
+						counterYellow = setCounterYellow;
 						status = state0;
 					}
 				}

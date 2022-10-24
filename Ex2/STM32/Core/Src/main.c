@@ -32,6 +32,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define setCounterRed 5
+#define setCounterYellow 2
+#define setCounterGreen 3
+#define threshold 0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -70,18 +74,6 @@ void enableYellow_LED(void){
 	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
-}
-
-static int setCounterRED (void){
-	return 5;
-}
-
-static int setCounterYellow (void){
-	return 2;
-}
-
-static int setCounterGreen (void){
-	return 3;
 }
 /* USER CODE END 0 */
 
@@ -124,10 +116,9 @@ int main(void)
   // status = 0 -> Red:on, Yellow: off, Green: off
   // status = 1 -> Red:off, Yellow: off, Green: on
   // status = 2 -> Red:off, Yellow: on, Green: off
-  static int counterRED = 5;
-  static int counterYellow = 2;
-  static int counterGreen = 3;
-  const int threshold = 0;
+  static int counterRED = setCounterRed;
+  static int counterYellow = setCounterYellow;
+  static int counterGreen = setCounterGreen;
   while (1)
   {
 	switch(status){
@@ -135,7 +126,7 @@ int main(void)
 			{
 				counterRED--;
 				if (counterRED == threshold){
-					counterRED = setCounterRED();
+					counterRED = setCounterRed;
 					status = state1;
 				}
 				enableRED_LED();
@@ -146,7 +137,7 @@ int main(void)
 			{
 				counterGreen--;
 				if (counterGreen == threshold){
-					counterGreen = setCounterGreen();
+					counterGreen = setCounterGreen;
 					status = state2;
 				}
 				enableGreen_LED();
@@ -157,7 +148,7 @@ int main(void)
 			{
 				counterYellow--;
 				if (counterYellow == threshold){
-					counterYellow = setCounterYellow();
+					counterYellow = setCounterYellow;
 					status = state0;
 				}
 				enableYellow_LED();

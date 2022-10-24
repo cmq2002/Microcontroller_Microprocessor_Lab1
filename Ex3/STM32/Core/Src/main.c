@@ -32,6 +32,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define setCounterRed 5
+#define setCounterGreen 3
+#define setCounterYellow 2
+#define threshold 0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -90,25 +94,13 @@ void enableGreen2 (void){
 	HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_RESET);
 }
 
-static int setCounterRed (void){
-	return 5;
-}
-
-static int setCounterYellow (void){
-	return 2;
-}
-
-static int setCounterGreen (void){
-	return 3;
-}
-
 int enableTerm_Green2 (int value){
-	if (value > 1 && value < 5) return 1;
+	if (value >= setCounterGreen) return 1;
 	return 0;
 }
 
 int enableTerm_Yellow2 (int value){
-	if (value >= 0 && value <= 1) return 1;
+	if (value <= setCounterYellow) return 1;
 	return 0;
 }
 /* USER CODE END 0 */
@@ -160,23 +152,15 @@ int main(void)
   // status = 1 -> Red2:on, Yellow2: off, Green2: off
   // status = 2 -> Red2:on, Yellow2: off, Green2: off
 
-  static int counterRED = 5;
-  static int counterYellow = 2;
-  static int counterGreen = 3;
-
-  const int threshold = 0;
+  static int counterRED = setCounterRed;
+  static int counterYellow = setCounterYellow;
+  static int counterGreen = setCounterGreen;
 
   while (1)
   {
 	switch (status){
 		case state0:
 			{
-				counterRED--;
-				if (counterRED == threshold){
-					counterRED = setCounterRed();
-					status = state1;
-				}
-
 				//West-East Direction
 				enableRed1();
 
@@ -188,38 +172,44 @@ int main(void)
 					//North-South Direction
 					enableYellow2();
 				}
+
+				counterRED--;
+				if (counterRED == threshold){
+					counterRED = setCounterRed;
+					status = state1;
+				}
 			}
 			break;
 
 		case state1:
 			{
-				counterGreen--;
-				if (counterGreen == threshold){
-					counterGreen = setCounterGreen();
-					status = state2;
-				}
-
 				//West-East Direction
 				enableGreen1();
 
 				//North-South Direction
 				enableRed2();
+
+				counterGreen--;
+				if (counterGreen == threshold){
+					counterGreen = setCounterGreen;
+					status = state2;
+				}
 			}
 			break;
 
 		case state2:
 			{
-				counterYellow--;
-				if (counterYellow == threshold){
-					counterYellow = setCounterYellow();
-					status = state0;
-				}
-
 				//West-East Direction
 				enableYellow1();
 
 				//North-South Direction
 				enableRed2();
+
+				counterYellow--;
+				if (counterYellow == threshold){
+					counterYellow = setCounterYellow;
+					status = state0;
+				}
 			}
 			break;
 	}
