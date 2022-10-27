@@ -267,6 +267,7 @@ int main(void)
 
   enum displayState {state0, state1, state2};
   enum displayState status = state0;
+  enum displayState status1= state1;
   // For West-East Direction:
   // status = 0 -> Red1:on, Yellow1: off, Green1: off
   // status = 1 -> Red1:off, Yellow1: off, Green1: on
@@ -281,85 +282,152 @@ int main(void)
   static int counterYellow = setCounterYellow;
   static int counterGreen = setCounterGreen;
 
+  static int counterRED1 = setCounterRed;
+  static int counterYellow1 = setCounterYellow;
+  static int counterGreen1 = setCounterGreen;
+
   while (1)
   {
+//	  switch (status){
+//			case state0:
+//				{
+//					//West-East Direction
+//					enableRed1();
+//					// Countdown number for W-E when red led on is the same as counterRED
+//					display7SEG1(counterRED);
+//
+//					if (enableTerm_Green2(counterRED)==1){
+//						//North-South Direction
+//						enableGreen2();
+//
+//						// Countdown number for N-S when green led on must start at 3
+//						display7SEG2(counterRED - setCounterYellow);
+//					}
+//
+//					if (enableTerm_Yellow2(counterRED)==1){
+//						//North-South Direction
+//						enableYellow2();
+//
+//						// When red led on W-E count to 2, it's also a countdown number for yellow led of N-S
+//						display7SEG2(counterRED);
+//					}
+//
+//					counterRED--;
+//					if (counterRED == threshold){
+//						counterRED = setCounterRed;
+//						status = state1;
+//					}
+//				}
+//				break;
+//
+//			case state1:
+//				{
+//					//West-East Direction
+//					enableGreen1();
+//
+//					//Countdown number in W-E when green led on is same as counterGreen
+//					display7SEG1(counterGreen);
+//
+//					//North-South Direction
+//					enableRed2();
+//
+//					// Meanwhile, countdown in N-S when red led on must start at 5
+//					display7SEG2(counterGreen + setCounterYellow);
+//
+//					counterGreen--;
+//					if (counterGreen == threshold){
+//						counterGreen = setCounterGreen;
+//						status = state2;
+//					}
+//				}
+//				break;
+//
+//			case state2:
+//				{
+//					//West-East Direction
+//					enableYellow1();
+//
+//					//Countdown number for W-E when yellow led on is same as counterYellow
+//					display7SEG1(counterYellow);
+//
+//					//North-South Direction
+//					enableRed2();
+//
+//					// The 2 seconds duration of yellow led in W-E is also the last 2 of red led on N-S
+//					display7SEG2(counterYellow);
+//
+//					counterYellow--;
+//					if (counterYellow == threshold){
+//						counterYellow = setCounterYellow;
+//						status = state0;
+//					}
+//				}
+//				break;
+//			default:
+//				break;
+//	  }
 	  switch (status){
-			case state0:
-				{
-					//West-East Direction
-					enableRed1();
-					// Countdown number for W-E when red led on is the same as counterRED
-					display7SEG1(counterRED);
+		  case state0:
+			  enableRed1();
+			  display7SEG1(counterRED);
+			  counterRED--;
+			  if (counterRED == threshold){
+				  counterRED = setCounterRed;
+				  status = state1;
+			  }
+			  break;
+		  case state1:
+			  enableGreen1();
+			  display7SEG1(counterGreen);
+			  counterGreen--;
+			  if (counterGreen == threshold){
+				  counterGreen = setCounterGreen;
+				  status = state2;
+			  }
+			  break;
+		  case state2:
+			  enableYellow1();
+			  display7SEG1(counterYellow);
+			  counterYellow--;
+			  if (counterYellow == threshold){
+				  counterYellow = setCounterYellow;
+				  status = state0;
+			  }
+			  break;
+		  default:
+			  break;
+	  }
 
-					if (enableTerm_Green2(counterRED)==1){
-						//North-South Direction
-						enableGreen2();
-
-						// Countdown number for N-S when green led on must start at 3
-						display7SEG2(counterRED - setCounterYellow);
-					}
-
-					if (enableTerm_Yellow2(counterRED)==1){
-						//North-South Direction
-						enableYellow2();
-
-						// When red led on W-E count to 2, it's also a countdown number for yellow led of N-S
-						display7SEG2(counterRED);
-					}
-
-					counterRED--;
-					if (counterRED == threshold){
-						counterRED = setCounterRed;
-						status = state1;
-					}
-				}
-				break;
-
-			case state1:
-				{
-					//West-East Direction
-					enableGreen1();
-
-					//Countdown number in W-E when green led on is same as counterGreen
-					display7SEG1(counterGreen);
-
-					//North-South Direction
-					enableRed2();
-
-					// Meanwhile, countdown in N-S when red led on must start at 5
-					display7SEG2(counterGreen + setCounterYellow);
-
-					counterGreen--;
-					if (counterGreen == threshold){
-						counterGreen = setCounterGreen;
-						status = state2;
-					}
-				}
-				break;
-
-			case state2:
-				{
-					//West-East Direction
-					enableYellow1();
-
-					//Countdown number for W-E when yellow led on is same as counterYellow
-					display7SEG1(counterYellow);
-
-					//North-South Direction
-					enableRed2();
-
-					// The 2 seconds duration of yellow led in W-E is also the last 2 of red led on N-S
-					display7SEG2(counterYellow);
-
-					counterYellow--;
-					if (counterYellow == threshold){
-						counterYellow = setCounterYellow;
-						status = state0;
-					}
-				}
-				break;
-			default:
-				break;
+	  switch (status1){
+		  case state0:
+			  enableRed2();
+			  display7SEG2(counterRED1);
+			  counterRED1--;
+			  if (counterRED1 == threshold){
+				  counterRED1 = setCounterRed;
+				  status1 = state1;
+			  }
+			  break;
+		  case state1:
+			  enableGreen2();
+			  display7SEG2(counterGreen1);
+			  counterGreen1--;
+			  if (counterGreen1 == threshold){
+				  counterGreen1 = setCounterGreen;
+				  status1 = state2;
+			  }
+			  break;
+		  case state2:
+			  enableYellow2();
+			  display7SEG2(counterYellow1);
+			  counterYellow1--;
+			  if (counterYellow1 == threshold){
+				  counterYellow1 = setCounterYellow;
+				  status1 = state0;
+			  }
+			  break;
+		  default:
+			  break;
 	  }
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */

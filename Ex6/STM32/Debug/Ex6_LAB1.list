@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  0002000c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   000030ba  00000000  00000000  00020035  2**0
+ 12 .debug_info   000030b7  00000000  00000000  00020035  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00000ec4  00000000  00000000  000230ef  2**0
+ 13 .debug_abbrev 00000ec4  00000000  00000000  000230ec  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000003f8  00000000  00000000  00023fb8  2**3
+ 14 .debug_aranges 000003f8  00000000  00000000  00023fb0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000370  00000000  00000000  000243b0  2**3
+ 15 .debug_ranges 00000370  00000000  00000000  000243a8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001559e  00000000  00000000  00024720  2**0
+ 16 .debug_macro  0001559e  00000000  00000000  00024718  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000045df  00000000  00000000  00039cbe  2**0
+ 17 .debug_line   000045c7  00000000  00000000  00039cb6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000798d1  00000000  00000000  0003e29d  2**0
+ 18 .debug_str    000798d1  00000000  00000000  0003e27d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000b7b6e  2**0
+ 19 .comment      00000053  00000000  00000000  000b7b4e  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000dd4  00000000  00000000  000b7bc4  2**2
+ 20 .debug_frame  00000dd4  00000000  00000000  000b7ba4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -370,7 +370,7 @@ int main(void)
  8000338:	f000 f876 	bl	8000428 <MX_GPIO_Init>
   {
 	//Ex6 - Testing all LEDs in sequence
-	//testingSystem();
+//	testingSystem();
 
 	//Ex7 - Turn off all LEDs
 	clearAllClock();
